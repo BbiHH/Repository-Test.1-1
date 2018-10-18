@@ -32,7 +32,7 @@ void Input_info (char name[N][8],int amount[N])
     printf("  *name* \t\t\t *amount* \t\t\t score\n");
     for(int i=0;i<N;i++)
     {
-       printf("%8s \t\t\t 201804408%02d \t\t\t\ %f\n",name[i],amount[i],score[i]);
+       printf("%8s \t\t\t 201804408%02d \t\t\t %f\n",name[i],amount[i],score[i]);
     }
 }
 //倒计时函数
