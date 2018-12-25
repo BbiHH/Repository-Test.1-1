@@ -55,32 +55,65 @@ void Eorr();
 //添加学生信息
 void Add()           //学生信息添加
 {
-    node *pStu ;         //新结点
-
-    //生成一个学生
-    pStu = malloc(sizeof(node)) ;
-    printf("  请输入学生学号、成绩:\n");
-    printf("  --输入:");
-    //输入学生学号、成绩
+    node *pStu ;   //新结点
     int account, score;
-    scanf("%d %d",&account,&score);
-    pStu->stu.acconut = account;
-    pStu->stu.score = score;
+    printf("  请输入学生学号、成绩（0 0输入完毕）:\n");
+    printf("  --输入:\n");
+    //输入学生学号、成绩
+    while(~scanf("%d %d",&account,&score))
+    {
+        if(account==0&&score==0)
+            break ;
+        //生成一个学生
+        pStu = malloc(sizeof(node)) ;
+        pStu->stu.acconut = account;
+        pStu->stu.score = score;
 
-    //添加结点
-    if(head==NULL)//如果为首个输入，则创建头结点
-        head = pStu;
-    else          //非首次输入则尾部添加结点
-        pEnd->next = pStu;
+        //添加结点
+        if(head==NULL)//如果为首个输入，则创建头结点
+            head = pStu;
+        else          //非首次输入则尾部添加结点
+            pEnd->next = pStu;
 
 
-    //更新尾结点
-    pEnd = pStu;
-
+        //更新尾结点
+        pEnd = pStu;
+    }
     printf("  信息已录入！\n");
 }
 
-void Locate()       //学生信息查询
+void Locate()
+{
+    int account;
+    printf("  输入学生学号:\n");
+    printf("  --输入:");
+    scanf("%d",&account);
+
+    //指向指针
+    node *pRead=head;
+    //寻找学生
+
+    int c = 0;
+
+    while(pRead!=NULL)
+    {
+        //找到则开始修改
+        if(pRead->stu.acconut==account)
+        {
+            //先输出学生信息
+            printf("  该学生成绩信息如下:\n\n");
+            printf("  \t学号 \t\t成绩\n");
+            printf("  \t%3d \t\t%3d\n",pRead->stu.acconut,pRead->stu.score);
+            c++;
+            break;
+        }
+        pRead = pRead->next;
+    }
+    if(c==0)
+        printf("  未找到该学号!\n");
+}
+
+void showlist()       //学生信息查询
 {
     //pRead 为指向指针
     node *pRead=head;
@@ -193,8 +226,8 @@ void Delete()     //学生信息删除
         }
         pGuard = pGuard->next;
     }
-        //未找到则反馈未找到
-        if(c==0)
+    //未找到则反馈未找到
+    if(c==0)
         printf("  未找到该学号!\n");
 }
 
@@ -202,87 +235,86 @@ void Delete()     //学生信息删除
 void sort_account()
 {
 
-    node *pRead = head ;//指向指针
-    node *pGuard;
+    node *p, *q, *tail;
 
-    int i = 0 ; //计数器
+    tail = NULL;
 
-    //找出多少结点
-    while(pRead!=NULL)
+    //冒泡法排序
+    p = head;
+
+    if(head->stu.acconut > head->next->stu.acconut)
+
     {
-        pRead = pRead->next;
-        i++;
+        //交换位置
+
+        head = head->next;
+
+        p->next = p->next->next;
+
+        head->next = p ;
     }
-
-    pRead = head ;
-
-//冒泡法排序
-    while(i--)
+    while((head->next->next) != tail)
     {
-        while(pRead!=NULL)
+        p = head;
+        q = head->next;
+        while(q->next != tail)
         {
-            if(head->stu.acconut > head->next->stu.acconut)
+            if((q->stu.acconut) > (q->next->stu.acconut))
             {
-                //交换位置
-                head = head->next;
-                pRead->next = pRead->next->next;
-                head->next = pRead ;
+                //位置交换(非交换值)
+                p->next = q->next;
+                q->next = q->next->next;
+                p->next->next = q;
+                q = p->next;
             }
-            else if(pRead->stu.acconut > pRead->next->stu.acconut)
-            {
-                //交换位置
-                pGuard = pRead ;
-                pGuard = pGuard->next;
-                pRead->next = pRead->next->next;
-                pGuard->next = pRead ;
-            }
-            pRead = pRead->next;
+            q = q->next;
+            p = p->next;
         }
+        tail = q;
     }
-
 }
 void sort_score()
 {
 
-    node *pRead = head ;//指向指针
-    node *pGuard;
+    node *p, *q, *tail;
 
-    int i = 0 ; //计数器
+    tail = NULL;
 
-    //找出多少结点
-    while(pRead!=NULL)
+    //冒泡法排序
+    p = head;
+
+    if(head->stu.score < head->next->stu.score)
+
     {
-        pRead = pRead->next;
-        i++;
+        //交换位置
+
+        head = head->next;
+
+        p->next = p->next->next;
+
+        head->next = p ;
     }
-
-    pRead = head ;
-
-//冒泡法排序
-    while(i--)
+    while((head->next->next) != tail)
     {
-        while(pRead!=NULL)
+        p = head;
+        q = head->next;
+        while(q->next != tail)
         {
-            if(head->stu.score > head->next->stu.score)
+            if((q->stu.score) < (q->next->stu.score))
             {
-                //交换位置
-                head = head->next;
-                pRead->next = pRead->next->next;
-                head->next = pRead ;
+                //位置交换(非交换值)
+                p->next = q->next;
+                q->next = q->next->next;
+                p->next->next = q;
+                q = p->next;
             }
-            else if(pRead->stu.score > pRead->next->stu.score)
-            {
-                //交换位置
-                pGuard = pRead ;
-                pGuard = pGuard->next;
-                pRead->next = pRead->next->next;
-                pGuard->next = pRead ;
-            }
-            pRead = pRead->next;
+            q = q->next;
+            p = p->next;
         }
+        tail = q;
     }
-
 }
+
 
 void Show()       //学生信息全览
 {
@@ -300,13 +332,13 @@ void Show()       //学生信息全览
         case 1 :   //按学号排序输出成绩
         {
             sort_account();
-            Locate();
+            showlist();
             break ;
         }
         case 2 :    //按成绩排名输出成绩
         {
             sort_score();
-            Locate();
+            showlist();
             break ;
         }
         case 0 :    //退出
@@ -341,6 +373,8 @@ void Stat()     //学生信息统计
     {
         switch(pRead->stu.score/10)
         {
+        case 10:
+            A++;
         case 9 :
             A++ ;
             break;
@@ -395,7 +429,7 @@ void Stat()     //学生信息统计
             //打印优秀学生信息
             while(pRead!=NULL)
             {
-                if(pRead->stu.score>90)
+                if(pRead->stu.score >= 90)
                     printf("  \t%3d \t\t%3d\n",pRead->stu.acconut,pRead->stu.score);
                 pRead = pRead->next;
             }
@@ -450,6 +484,7 @@ void Dellist()
     printf("\n提示：信息已清除！\n");
 
 }
+
 #endif // OPERATE_H_INCLUDED
 
 
@@ -529,5 +564,5 @@ int main()
     Dellist();
 
     return 0 ;
-}
 
+}
