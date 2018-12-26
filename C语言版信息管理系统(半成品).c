@@ -57,11 +57,21 @@ void Add()           //学生信息添加
 {
     node *pStu ;   //新结点
     int account, score;
+
+    //下面表头比较难处理，直接不用表头
+    pStu = malloc(sizeof(node)) ;
+    pStu->stu.acconut = 0;
+    pStu->stu.score = 0;
+    head = pStu;
+    pEnd = pStu;
+
+    //添加信息
     printf("  请输入学生学号、成绩（0 0输入完毕）:\n");
     printf("  --输入:\n");
     //输入学生学号、成绩
-    while(~scanf("%d %d",&account,&score))
+    while(1)
     {
+        scanf("%d %d",&account,&score);
         if(account==0&&score==0)
             break ;
         //生成一个学生
@@ -148,7 +158,7 @@ void Revision()    //学生信息修改
         {
             //先输出学生信息
             printf("  该学生成绩信息如下:\n");
-            printf("  学号 \t\t成绩\n");
+            printf("  \t学号 \t\t成绩\n");
             printf("  \t%3d \t\t%3d\n",pRead->stu.acconut,pRead->stu.score);
             //修改学生成绩
             printf("  请输入该学生的新成绩:\n");
@@ -208,7 +218,7 @@ void Delete()     //学生信息删除
             //先输出学生信息
             printf("  该学生成绩信息如下:\n");
             printf("  \t学号 \t\t成绩\n");
-            printf("  \t%3d \t\t%3d",pGuard->next->stu.acconut,pGuard->next->stu.score);
+            printf("  \t%3d \t\t%3d\n",pGuard->next->stu.acconut,pGuard->next->stu.score);
             //修改学生成绩
             fflush(stdin);
             char j = 'N';
@@ -242,7 +252,7 @@ void sort_account()
     //冒泡法排序
     p = head;
 
-    if(head->stu.acconut > head->next->stu.acconut)
+    /*if(head->stu.acconut > head->next->stu.acconut)
 
     {
         //交换位置
@@ -252,13 +262,26 @@ void sort_account()
         p->next = p->next->next;
 
         head->next = p ;
-    }
+    }*/
     while((head->next->next) != tail)
     {
         p = head;
         q = head->next;
         while(q->next != tail)
         {
+            /*if(head->stu.acconut > head->next->stu.acconut)
+
+            {
+                //交换位置
+
+                head = head->next;
+
+                p->next = p->next->next;
+
+                head->next = p ;
+                p = head;
+                q = head->next;
+            }*/
             if((q->stu.acconut) > (q->next->stu.acconut))
             {
                 //位置交换(非交换值)
@@ -283,7 +306,7 @@ void sort_score()
     //冒泡法排序
     p = head;
 
-    if(head->stu.score < head->next->stu.score)
+    /*if(head->stu.score < head->next->stu.score)
 
     {
         //交换位置
@@ -293,13 +316,27 @@ void sort_score()
         p->next = p->next->next;
 
         head->next = p ;
-    }
+    }*/
+
     while((head->next->next) != tail)
     {
         p = head;
         q = head->next;
         while(q->next != tail)
         {
+            /*if((head->stu.score) < (head->next->stu.score))
+
+            {
+                //交换位置
+
+                head = head->next;
+
+                p->next = p->next->next;
+
+                head->next = p ;
+                p = head;
+                q = head->next;
+            }*/
             if((q->stu.score) < (q->next->stu.score))
             {
                 //位置交换(非交换值)
@@ -375,6 +412,7 @@ void Stat()     //学生信息统计
         {
         case 10:
             A++;
+            break;
         case 9 :
             A++ ;
             break;
@@ -392,6 +430,7 @@ void Stat()     //学生信息统计
         }
         pRead = pRead->next;
     }
+    E = E-1 ;//头结点为0 0
 
 
     int k ;
@@ -486,6 +525,7 @@ void Dellist()
 }
 
 #endif // OPERATE_H_INCLUDED
+
 
 
 
